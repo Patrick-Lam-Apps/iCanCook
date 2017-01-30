@@ -1,0 +1,11 @@
+*~
+.vagrant
+
+*.pyc
+*.sqlite3
+
+Gemfile.lock
+log/*
+log.log
+.bundle
+.idea

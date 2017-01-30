@@ -1,0 +1,35 @@
+{% extends "accounts/manage_base.html" %}
+
+{% block content %}
+    <h1>My Recipes</h1>
+    <hr class="colorhr">
+    <hr>
+    <div>
+        <h3>
+            <a href="/recipes/add/">Add a new recipe</a>
+        </h3>
+    </div>
+    {% for recipe in recipes %}
+        <div class="media media-recipe">
+            <div class="media-left">
+                <a href="/recipes/{{ recipe.rid }}">
+                    <img class="media-object admin-recipe-pic"
+                         src="{% if recipe.recipe_pic %}{{ recipe.recipe_pic }}{% else %}/static/recipes/images/food-placeholder.png{% endif %}"
+                         alt="placeholder">
+                </a>
+            </div>
+            <div class="media-body recipe-media-body">
+                <h4 class="media-heading"><a href="/recipes/{{ recipe.rid }}">{{ recipe.title }}</a></h4>
+                {{ recipe.description }}
+            </div>
+        </div>
+        <div class="recipe-actions">
+            <a href="/recipes/{{ recipe.rid }}">View</a> |
+            <a href="/recipes/{{ recipe.rid }}/edit/">Edit</a> |
+            <a href="/recipes/{{ recipe.rid }}/delete/" class="delete">Delete</a>
+        </div>
+        <hr class="recipe-divider">
+
+
+    {% endfor %}
+{% endblock %}

@@ -1,0 +1,201 @@
+{% extends "recipes/base.html" %}
+
+{% block head_title %}
+    {{ recipe.title }} | {{ block.super }}
+{% endblock head_title %}
+
+{% block content %}
+    <div class="recipe-main">
+        <div class="row">
+        <div class="col-md-5">
+            <div id="recipe-title" class="row">
+
+                <div class="col-md-12 ">
+                    <div class="row">
+                    <div class="col-md-10">
+                    <h2>{{ recipe.title }}</h2>
+                    </div>
+                    <div class="col-md-2">
+                                                             <!-- Favourite Button -->
+                        {% if user.is_authenticated %} {% if favourited %}
+                        <a href="/recipes/{{ recipe.rid }}/favourite" class="btn btn-danger btn-circle btn-lg"><i class="glyphicon glyphicon-remove"></i> Remove Favourite</a>
+                        <!-- <p><a href="/recipes/{{ recipe.rid }}/remove" class="btn btn-default">remove from favourites</a></p>-->
+                        {% else %}
+                        <a href="/recipes/{{ recipe.rid }}/favourite" class="btn btn-danger btn-circle btn-lg"><i class="glyphicon glyphicon-heart"></i></a>
+                        <!--<p><a href="/recipes/{{ recipe.rid }}/favourite" class="btn btn-default">add to favourites</a></p>
+                                -->
+                        {% endif %} {% endif %}
+                        </div>
+                    </div>
+
+
+                    <h4>{{ recipe.created }}<br/> By : {{ user_full_name }}</h4>
+
+                </div>
+                <!-- <div class="col-md-12">
+                    <div class="col-xs-12 col-md-6 text-center">
+                        <h1 class="rating-num">
+                            4.0</h1>
+                        <div class="rating">
+                            <span class="glyphicon glyphicon-star"></span><span class="glyphicon glyphicon-star">
+                            </span><span class="glyphicon glyphicon-star"></span><span class="glyphicon glyphicon-star">
+                            </span><span class="glyphicon glyphicon-star-empty"></span>
+                        </div>
+                
+                            <span class="glyphicon glyphicon-user"></span>1,050,008 total
+                        </div>
+                    </div>
+                </div>-->
+            </div>
+
+<!-- Review of the author -->
+
+            <div class="row">
+                <div class="col-md-12">
+                        <blockquote class="quote-card">
+              <p>
+                {{ recipe.description }} 
+              </p>
+            </blockquote>
+                </div>
+            </div>
+        </div>
+
+<!-- Recipe Image on the right -->
+
+            <div class="col-md-7">
+                <div id="recipe-image-container" {% if recipe.recipe_pic %} style="background-image: url('{{ recipe.recipe_pic.url }}')" {% endif %}>
+
+                </div>
+            </div>
+        </div>
+
+<!-- List of ingredients -->
+
+        <div class="row col-list">
+            <div id="ingredients-container" class="col-md-3 ingredient-names">
+            <div class="col-head text-center">
+            <span class="glyphicon glyphicon-ice-lolly-tasted" aria-hidden="true"></span>
+            <h2>Ingredients</h2>
+            </div>
+                <div class="ingredient-wrap">
+                <ul class="list-group">
+                    {% for ingredient in recipe.ingredient_set.all %}
+                    <li class="list-group-item list-group-item-info">
+                    <span class="badge">{% load recipe_filters %}
+                                    {{ ingredient|format_quantity }} {{ ingredient.quantity_type.short_name }}</span>
+                    {{ ingredient.name }}
+                    </li>
+                     {% endfor %}
+                    </ul>
+                </div>
+             </div>
+
+<!-- My changes to make recipe steps panel -->
+
+                <div class="col-md-6 ingredient-steps">
+                    <div class="col-head text-center">
+                    <span class="glyphicon glyphicon-cutlery" aria-hidden="true"></span>
+                    <h2>Directions</h2>
+                    </div>
+
+            <ul class="list-unstyled">
+                        {% for step in recipe.step_set.all %}
+                <li> {{ step.description|linebreaks }} </li>
+                        {% endfor %}
+            </ul>
+
+<!-- Edit and Delete Buttons-->
+
+        {% if user.is_authenticated and user.id == recipe.userid %}
+            <a href="/recipes/{{ recipe.rid }}/edit/" class="btn btn-success btn-circle btn-lg"><i class="glyphicon glyphicon-ok"></i> EDIT</a>
+           <!-- <p><a href="/recipes/{{ recipe.rid }}/edit/" class="btn btn-default">edit recipe</a></p>
+            <p><a href="/recipes/{{ recipe.rid }}/delete/" class="btn btn-default">delete recipe</a></p>
+            -->
+            <a href="/recipes/{{ recipe.rid }}/delete/" class="btn btn-warning btn-circle btn-lg"><i class="glyphicon glyphicon-trash"></i> DELETE</a>
+        {% endif %}
+        </div> <!-- Close the recipe steps-->
+
+<!-- Cooking time, Servings and Other Recipe details -->
+
+                 <div class ="column-margin">
+
+                   <div class="col-md-1 recipe-info-t2">
+                    <div class="col-head text-center">
+                          <h4>Time</h4>
+                    </div>
+
+                    <div class="col-head text-center">
+                          <h4>Serving</h4>
+                    </div>
+
+                    <div class="col-head text-center">
+                          <h4>Calorie</h4>
+                    </div>
+              </div><!-- Close recipe-info column-1-->
+
+                <div class="col-md-2 recipe-info-t3">
+                    <div class="col-head text-center">
+                          <h4>{{ recipe.prep_time }} minutes</h4>
+                    </div>
+
+                    <div class="col-head text-center">
+                          <h4>{{ recipe.serving }}</h4>
+                    </div>
+
+                    <div class="col-head text-center">
+                          <h4>{{ recipe.calorie }} cal</h4>
+                    </div>
+
+                </div> <!-- Close recipe-info column-2-->
+                </div>
+
+        </div> <!-- Close row ingredient-->
+            <hr>
+
+
+<!-- Social Activities-->
+
+
+                <div class="row onl_login">
+                    <div class="col-md-12">
+                        <div class="row  onl_socialButtons">
+                            <div class="col-xs-2 col-sm-2 ">
+                                <a href="/recipes/" class="btn btn-lg btn-lg onl_btn-twitter"> <i class="fa fa-arrow-left fa-2x"></i>
+                                    <span class="hidden-xs"></span>
+                                </a>
+                            </div>
+                            
+                            <div class="col-xs-2 col-sm-2 col-sm-offset-1">
+                                <a href="#" class="btn btn-lg btn-block onl_btn-pinterest" data-toggle="tooltip" data-placement="top" title="Pinterest">
+                                    <i class="fa fa-pinterest fa-2x"></i>
+                                    <span class="hidden-xs"></span>
+                                </a>
+                            </div>
+                            <div class="col-xs-2 col-sm-2">
+                                <a href="http://twitter.com/share?url=http%3A%2F%2Fdev.twitter.com%2Fpages%2Ftweet-button&text=my%20text%20here" class="btn btn-lg btn-block onl_btn-twitter" data-toggle="tooltip" data-placement="top" title="Twitter" target="_blank">
+                                    <i class="fa fa-twitter fa-2x"></i>
+                                    <span class="hidden-xs"></span>
+                                </a>
+                            </div>
+                            <div class="col-xs-2 col-sm-2">
+                                <a href="{{ request.build_absolute_uri }}" onclick="window.location = '//www.reddit.com/submit?url=' + encodeURIComponent(window.location); return false" class="btn btn-lg btn-block onl_btn-github" data-toggle="tooltip" data-placement="top" title="Reddit">
+                                    <i class="fa fa-reddit fa-2x"></i>
+                                    <span class="hidden-xs"></span>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <hr/>
+                    <!-- FB Comments Section -->
+                    <div class="row">
+                        <div class="col-md-4 col-md-offset-3">
+                            <div class="fb-comments" data-href="{{ request.build_absolute_uri }}" data-numposts="5"></div>
+                        </div>
+                    </div>
+                    
+                </div>
+           
+
+{% endblock content %}

@@ -1,0 +1,122 @@
+<div class="navbar-wrapper">
+    <div class="container">
+        <nav class="navbar navbar-inverse">
+            <!-- <div class="container"> -->
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false" aria-controls="bs-example-navbar-collapse-1">
+
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+
+                <!--<a class="navbar-brand" href="#">Project name</a> -->
+            </div>
+            <!-- Collect the nav links, forms, and other content for toggling -->
+            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                <!-- <div id="navbar" class="navbar-collapse collapse"> -->
+                <div class="row">
+                    <div class="col-md-3">
+                        <ul class="nav navbar-nav">
+                        <!--
+                            <li class="active"><a href="/home/">Home</a></li> -->
+                            <li><a href="/home/">Home</a></li>
+                            <li class="dropdown">
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+                                    <span>Recipe</span>
+                                    <span class="caret"></span>
+                                </a>
+                                <ul class="dropdown-menu">
+                                    <li><a href="/recipes/">All</a></li>
+                                    <li><a href="/recipes/breakfast">Breakfast</a></li>
+                                    <li><a href="/recipes/lunch">Lunch</a></li>
+                                    <li><a href="/recipes/dinner">Dinner</a></li>
+                                    <li><a href="/recipes/dessert">Dessert</a></li>
+                                    <li role="separator" class="divider"></li>
+                                    <li class="dropdown-header">Special Collection</li>
+                                    <li><a href="/recipes/quick">15-Minutes Meal</a></li>
+                                    <li><a href="/recipes/52">Recipe of the Day</a></li>
+                                    <li><a href="/recipes/holiday">Holiday Recipes</a></li>
+                                </ul>
+                            </li>
+                            <li class="dropdown">
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+                                    <span>Tips</span>
+                                    <span class="caret"></span>
+                                </a>
+                                <ul class="dropdown-menu">
+                                    <li><a href="/recipes/tips">Cooking Tips</a></li>
+                                    <li><a href="/recipes/healthy_living">Healthy Living</a></li>
+                                    <li><a href="/recipes/nutrition_guide">Nutrition Guide</a></li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="col-md-5">
+                        <form class="form navbar-form" role="search" action='/search/'>
+                            <div class="form-group row">
+                                <div class="input-group col-md-12">
+                                    <input type="text" class="form-control" placeholder="Search" name="q">
+                                    <div class="input-group-btn">
+                                        <button class="btn btn-default" type="submit"><i class="glyphicon glyphicon-search"></i></button>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="col-md-3 col-md-offset-1">
+                        {% if user.is_authenticated %}
+                            <ul class="nav navbar-nav pull-right">
+                                <li class="dropdown">
+                                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+                                        <span>{{ user.username }}</span>
+                                        <span class="caret"></span>
+                                    </a>
+                                    <ul class="dropdown-menu">
+                                        <li><a href="/user/"> Account </a></li>
+                                        <li><a href="/user/recipes/"> My Recipes </a></li>
+                                        <li><a href="/user/favourites/"> My Favourites </a></li>
+                                        <li><a href="/user/logout/?next={{ request.path }}"> Logout </a></li>
+                                    </ul>
+                                </li>
+                            </ul>
+                        {% else %}
+                            <ul class="nav navbar-nav pull-right">
+                              <!--  <li><a href="/user/login/?next={{ request.path }}">Login</a></li> -->
+                             <li><a href="/user/login/?next={{ request.path }}" data-toggle="modal" data-target="#myModal">Login</a></li>
+
+                            </ul>
+                        {% endif %}
+
+                        <ul class="nav navbar-nav pull-right">
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <!-- collapse nav bar closing-->
+            <!-- </div> closing container-->
+        </nav>
+    </div>
+</div>
+
+<!-- Modal Changes to Login-->
+<div class="modal fade" id="myModal" role="dialog">
+    <div class="modal-dialog">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Modal Header</h4>
+            </div>
+            <div class="modal-body">
+                <p>Some text in the modal.</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+
+    </div>
+</div>
